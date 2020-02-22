@@ -1,0 +1,62 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18/02/2020, 06:00:15 PM
+    Author     : pollo
+*/
+
+input[type=text], select{
+    border-radius: 25px;
+}
+
+.form-control{
+    border-radius: 25px;
+}
+
+.user{
+    border-radius: 25px;
+
+}
+
+#nombreUsuario{
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+#nombreUsuario1{
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.formM{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.formC{
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.btn{
+    border-radius: 25px;
+}
+
+.upD{
+    background-color: rgb(224, 36, 94, 0.1);
+    color:red;
+    border-color: red;
+}
+
+.logO{
+    background-color: rgb(230, 236, 240);
+    color:rgb(29, 161, 242); 
+    border-color:rgb(29, 161, 242); 
+}
+
+.display-4{
+    margin-left: 8%;
+}

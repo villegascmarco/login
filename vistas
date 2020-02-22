@@ -1,0 +1,197 @@
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_inicioSesionC` AS select `cliente`.`idCliente` AS `idCliente`,`cliente`.`numeroUnico` AS `numeroUnico`,`cliente`.`correo` AS `correo`,`cliente`.`estatus` AS `estatus`,`persona`.`idPersona` AS `idPersona`,`persona`.`nombre` AS `nombre`,`persona`.`apellidoPaterno` AS `apellidoPaterno`,`persona`.`apellidoMaterno` AS `apellidoMaterno`,`persona`.`genero` AS `genero`,`persona`.`domicilio` AS `domicilio`,`persona`.`telefono` AS `telefono`,`persona`.`rfc` AS `rfc`,`usuario`.`idUsuario` AS `idUsuario`,`usuario`.`nombreUsuario` AS `nombreUsuario`,`usuario`.`contrasenia` AS `contrasenia`,`usuario`.`rol` AS `rol`,`usuario`.`token` AS `token` from ((`cliente` join `persona` on((`cliente`.`idPersona` = `persona`.`idPersona`))) join `usuario` on((`cliente`.`idUsuario` = `usuario`.`idUsuario`)))
+
+
+
+---------------
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizarToken`(
+
+in var_token varchar(64),
+in var_idUsuario int
+)
+begin
+
+update usuario 
+set token = var_token 
+where idUsuario= var_idUsuario;
+
+end
+
+------
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_inicioSesionE` AS select `empleado`.`idEmpleado` AS `idEmpleado`,`empleado`.`numeroEmpleado` AS `numeroEmpleado`,`empleado`.`estatus` AS `estatus`,`empleado`.`puesto` AS `puesto`,`empleado`.`rutaFoto` AS `rutaFoto`,`persona`.`idPersona` AS `idPersona`,`persona`.`nombre` AS `nombre`,`persona`.`apellidoPaterno` AS `apellidoPaterno`,`persona`.`apellidoMaterno` AS `apellidoMaterno`,`persona`.`genero` AS `genero`,`persona`.`domicilio` AS `domicilio`,`persona`.`telefono` AS `telefono`,`persona`.`rfc` AS `rfc`,`usuario`.`idUsuario` AS `idUsuario`,`usuario`.`nombreUsuario` AS `nombreUsuario`,`usuario`.`contrasenia` AS `contrasenia`,`usuario`.`rol` AS `rol`,`usuario`.`token` AS `token` from ((`empleado` join `persona` on((`empleado`.`idPersona` = `persona`.`idPersona`))) join `usuario` on((`empleado`.`idUsuario` = `usuario`.`idUsuario`)))
+
+--------------------------
+delimiter //
+create procedure eliminarEmpleado(
+in var_idEmpleado int)
+begin
+
+update empleado set estatus = 0 where idEmpleado=var_idEmpleado;
+
+
+end//
+
+delimiter ;
+
+
+------------------------
+
+delimiter //
+CREATE PROCEDURE insertarPersona(
+/*Datos Personales*/
+in var_nombre VARCHAR(64),
+in var_apellidoPaterno VARCHAR(64),
+in var_apellidoMaterno VARCHAR(64),
+in var_genero VARCHAR(2),
+in var_domicilio VARCHAR(200),
+in var_telefono VARCHAR(25),
+in var_rfc VARCHAR(14),
+
+
+
+out var_idPersona int)
+begin
+/*Empezamos el transaccion*/
+
+INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, genero,
+domicilio, telefono, rfc) VALUES(var_nombre,var_apellidoPaterno, 
+var_apellidoMaterno, var_genero, var_domicilio, var_telefono, 
+var_rfc);
+set var_idPersona=last_insert_id();
+
+
+end
+
+//
+delimiter ;
+
+
+---------------
+
+delimiter //
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(
+
+/*Datos Usuario*/
+in var_nombreUsuario VARCHAR(48),
+in var_contrasenia VARCHAR(48),
+in var_rol VARCHAR(24),
+
+out var_idUsuario int)
+begin
+
+INSERT INTO usuario (nombreUsuario, contrasenia, rol, token) 
+VALUES(var_nombreUsuario, var_contrasenia, var_rol, "");
+set var_idUsuario=last_insert_id();
+
+end
+
+delimiter;
+
+----------------
+delimiter //
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarEmpleado`(
+
+in var_numeroEmpleado VARCHAR(65),
+in var_puesto VARCHAR(20),
+in var_rutaFoto VARCHAR(300),
+in var_idPersona int,
+in var_idUsuario int)
+begin
+
+
+INSERT INTO
+ empleado 
+ (numeroEmpleado,puesto,estatus,rutaFoto,idPersona,idUsuario)
+ VALUES
+ (var_numeroEmpleado,var_puesto,1,var_rutaFoto,var_idPersona,var_idUsuario);
+
+end
+
+delimiter;
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------
+    
+    DELIMITER //
+    CREATE PROCEDURE actualizarPersona(
+    IN var_nombre varchar(64),
+    IN var_apellidoPaterno varchar(64),
+    IN var_apellidoMaterno varchar(64),
+    IN var_genero varchar(2),
+    IN var_domicilio varchar(200),
+    IN var_telefono varchar(25),
+    IN var_rfc varchar(14),
+    IN var_idPersona int)
+    
+    
+    BEGIN 
+    UPDATE persona
+    SET nombre = var_nombre,
+    apellidoPaterno = var_apellidoPaterno,
+    apellidoMaterno = var_apellidoMaterno,
+    genero = var_genero,
+    domicilio = var_domicilio,
+    telefono = var_telefono,
+    rfc = var_rfc
+    WHERE idPersona = var_idPersona;
+    END //
+    
+
+    DELIMITER ;
+    
+    
+
+
+DELIMITER //
+CREATE PROCEDURE actualizarUsuario(
+IN var_nombreUsuario varchar(25),
+IN var_contrasenia varchar(25),
+IN var_rol varchar(25),
+IN var_idUsuario int)
+
+BEGIN
+
+UPDATE usuario SET
+nombreUsuario = var_nombreUsuario,
+contrasenia = var_contrasenia,
+rol = var_rol
+WHERE idUsuario = var_idUsuario;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE actualizarEmpleado(
+IN var_numeroEmpleado varchar(100),
+IN var_puesto varchar(50),
+IN var_rutaFoto varchar(300),
+IN var_idPersona int)
+
+BEGIN
+
+UPDATE empleado SET
+numeroEmpleado = var_numeroEmpleado,
+puesto = var_puesto,
+rutaFoto = var_rutaFoto
+WHERE idPersona = var_idPersona;
+
+END //
+DELIMITER ;
+
+
+CREATE VIEW v_listaEmpleados AS SELECT u.idUsuario, e.estatus,e.idEmpleado, e.numeroEmpleado, e.puesto, u.nombreUsuario FROM empleado e  INNER JOIN usuario u ON e.idUsuario = u.idUsuario GROUP BY e.numeroEmpleado;
+
+
+
+
+
+
