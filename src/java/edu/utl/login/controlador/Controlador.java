@@ -54,7 +54,7 @@ public class Controlador {
 
     public String limpiarDato(String dato) {
 
-        String original = "";
+        String original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝß";
         String cambios = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYB";
         String resultado = dato.toUpperCase();
 
