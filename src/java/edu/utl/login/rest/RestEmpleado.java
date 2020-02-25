@@ -177,15 +177,15 @@ public class RestEmpleado extends Application {
         
         Usuario u = new Usuario(
                 Integer.parseInt(idUsuario),
-                nombreUsuario,
-                contrasenia,
+                cmd.limpiarDato(nombreUsuario),
+                cmd.limpiarDato(contrasenia),
                 rol,
                 tokenAdmin);
         Persona p = new Persona(
                 Integer.parseInt(idPersona),
-                nombre,
-                apellidoPaterno,
-                apellidoMaterno,
+                cmd.limpiarDato(nombre),
+                cmd.limpiarDato(apellidoPaterno),
+                cmd.limpiarDato(apellidoMaterno),
                 genero,
                 domicilio,
                 telefono,

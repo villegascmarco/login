@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var us = "" + JSON.stringify(localStorage.getItem("cliente"))
+var us = "" + JSON.stringify(localStorage.getItem("cliente"));
 
 if (us !== null) {
     let json = us.toString();
@@ -11,7 +11,7 @@ if (us !== null) {
         window.location = "Bienvenido.jsp";
     } else if (json.includes("idEmpleado")) {//Sólo para validar que esté logeado
         window.location = "BienvenidoEmpleado.jsp";
-
+        console.log(json);
     } else {
         localStorage.clear();
     }

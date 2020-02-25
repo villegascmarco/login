@@ -3,32 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var json = JSON.parse(localStorage.getItem("cliente"));
+var tipo = "";
 
-
-
-var json = JSON.parse(localStorage.getItem("cliente"))
-var tipo = json.usuario.rol;
-if (json === null) {
+if (json !== "" && json !== null) {
+    tipo = json.usuario.rol;
+} else {
     window.location = "index.jsp";
 }
-if (!tipo.includes("Cliente")) {
+if (tipo === null || tipo === "") {
+} else if (!tipo.includes("Cliente")) {
     window.location = "BienvenidoEmpleado.jsp";
 }
-var u = json.usuario
+var u = json.usuario;
+
+
 Object.keys(json).forEach(key => {
 
     if (key == 'usuario' && key !== null) {
         Object.keys(u).forEach(key => {
             document.getElementById(key).value = u[key];
         })
-//                    document.getElementById(key).value = json[key];
 
-    } else {
+    } else if (key == 'persona' && key !== null) {
 
         document.getElementById(key).value = json[key];
 
     }
-})
+});
+
+
 
 
 

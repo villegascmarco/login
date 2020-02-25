@@ -6,7 +6,7 @@
 var json = JSON.parse(localStorage.getItem("cliente"));
 var tipo = "";
 
-if (json !== "") {
+if (json !== "" && json !== null) {
     tipo = json.usuario.rol;
 } else {
     window.location = "index.jsp";
@@ -22,10 +22,8 @@ Object.keys(json).forEach(key => {
 
     if (key == 'usuario' && key !== null) {
         Object.keys(u).forEach(key => {
-
             document.getElementById(key).value = u[key];
         })
-//                    document.getElementById(key).value = json[key];
 
     } else if (key == 'persona' && key !== null) {
         Object.keys(p).forEach(key => {
