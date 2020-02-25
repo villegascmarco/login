@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("empleado")
 public class RestEmpleado extends Application {
-    
+
     @Path("crear")
     @Produces(MediaType.APPLICATION_JSON)
     @POST
@@ -62,8 +62,8 @@ public class RestEmpleado extends Application {
     ) {
         Controlador cmd = new Controlador();
         ControladorEmpleado cmdE = new ControladorEmpleado();
-        Gson gson = new Gson();        
-        
+        Gson gson = new Gson();
+
         Usuario u = new Usuario(
                 Integer.parseInt(idUsuarioAdmin),
                 nombreUsuario,
@@ -86,13 +86,13 @@ public class RestEmpleado extends Application {
                 puesto,
                 0,
                 rutaFoto);
-        
+
         String respuesta = "" + cmdE.insertar(e);
-        
+
         return Response.status(Response.Status.OK).entity(respuesta).build();
-        
+
     }
-    
+
     @Path("eliminarCuenta")
     @Produces(MediaType.APPLICATION_JSON)
     @POST
@@ -107,30 +107,30 @@ public class RestEmpleado extends Application {
         Controlador cmd = new Controlador();
         ControladorEmpleado cmdE = new ControladorEmpleado();
         Gson gson = new Gson();
-        
+
         String respuesta = "" + cmdE.eliminarCuenta(idEmpleado, tokenAdmin, idUsuarioAdmin);
-        
+
         return Response.status(Response.Status.OK).entity(respuesta).build();
-        
+
     }
-    
+
     @Path("listado")
     @Produces(MediaType.APPLICATION_JSON)
     @POST
     public Response listarEmpleados(@FormParam("tokenAdmin")
             @DefaultValue("0") String tokenAdmin) {
-        
+
         Controlador cmd = new Controlador();
         ControladorEmpleado cmdE = new ControladorEmpleado();
         Gson gson = new Gson();
-        
+
         Usuario u = new Usuario(0, tokenAdmin);
         String e = cmdE.listarEmpleados(u);
         System.out.println(e);
         return Response.status(Response.Status.OK).entity(e).build();
-        
+
     }
-    
+
     @Path("actualizarCuenta")
     @Produces(MediaType.APPLICATION_JSON)
     @POST
@@ -170,15 +170,15 @@ public class RestEmpleado extends Application {
             @FormParam("tokenAdmin")
             @DefaultValue("0") String tokenAdmin
     ) {
-        
+
         Controlador cmd = new Controlador();
         ControladorEmpleado cmdE = new ControladorEmpleado();
         Gson gson = new Gson();
-        
+
         Usuario u = new Usuario(
                 Integer.parseInt(idUsuario),
-                cmd.limpiarDato(nombreUsuario),
-                cmd.limpiarDato(contrasenia),
+                nombreUsuario,
+                contrasenia,
                 rol,
                 tokenAdmin);
         Persona p = new Persona(
@@ -187,7 +187,7 @@ public class RestEmpleado extends Application {
                 cmd.limpiarDato(apellidoPaterno),
                 cmd.limpiarDato(apellidoMaterno),
                 genero,
-                domicilio,
+                cmd.limpiarDato(domicilio),
                 telefono,
                 rfc);
         Empleado e = new Empleado(
@@ -198,13 +198,13 @@ public class RestEmpleado extends Application {
                 puesto,
                 0,
                 foto);
-        
+
         boolean respuesta = cmdE.actualizarCuenta(e);
-        
+
         String res = String.valueOf(respuesta);
-        
+
         return Response.status(Response.Status.OK).entity(res).build();
-        
+
     }
-    
+
 }
