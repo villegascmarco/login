@@ -1,0 +1,16 @@
+create view v_reservacion as
+SELECT 
+    r.idReservacion,
+    r.fechaHoraInicio,
+    r.fechaHoraFin,
+    r.estatus,
+    p.nombre as 'Cliente',
+    s.nombre as 'Sucursal'
+FROM
+    reservacion r
+        INNER JOIN
+    cliente c ON r.idCliente = c.idCliente
+        INNER JOIN
+    persona p ON p.idPersona = c.idPersona
+        INNER JOIN
+    sala s on s.idSala=r.idSala;
