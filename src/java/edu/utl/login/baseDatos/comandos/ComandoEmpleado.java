@@ -307,12 +307,13 @@ public class ComandoEmpleado {
                 rs.beforeFirst();
                 while (rs.next()) {
                     Reservacion r = new Reservacion();
-                    r.setIdReservacion(rs.getInt("idReservacion"));
-                    r.setFechaHoraInicio(rs.getString("fechaHoraInicio"));
-                    r.setFechaHoraFin(rs.getString("fechaHoraFin"));
+                    r.setIdReservacion(rs.getInt("idReservacion"));                    
+                    r.setFechaHoraInicio(recortarFecha(rs.getString("fechaHoraInicio")));
                     r.setEstatus(rs.getInt("estatus"));
+                    r.setHoraInicio(rs.getString("horaInicio"));
+                    r.setHoraFin(rs.getString("horaFin"));
                     r.setCliente(rs.getString("Cliente"));
-                    r.setSucursal(rs.getString("Sucursal"));
+                    r.setSucursal(rs.getString("Sala"));
                     reservaciones[con] = r;
                     con++;
                 }
@@ -329,4 +330,13 @@ public class ComandoEmpleado {
         }
     }
 
+    public String recortarFecha(String fecha) {
+        char[] fechaC = fecha.toCharArray();
+        String fechaF = "";
+        for (int i = 0; i < 10; i++) {
+            fechaF += fechaC[i];
+        }
+
+        return fechaF;
+    }
 }

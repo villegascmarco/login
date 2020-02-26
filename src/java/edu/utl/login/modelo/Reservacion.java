@@ -10,26 +10,43 @@ package edu.utl.login.modelo;
  * @author pollo
  */
 public class Reservacion {
+
     private int idReservacion;
     private String fechaHoraInicio;
     private String fechaHoraFin;
+    private String horaInicio;
+    private String horaFin;
     private int estatus;
     private String cliente;
     private String sucursal;
-    
-    public Reservacion(){
-        
+
+    public Reservacion() {
+
     }
 
-    public Reservacion(int idReservacion, String fechaHoraInicio, String fechaHoraFin, int estatus, String cliente, String sucursal) {
+    public Reservacion(int idReservacion, String fechaHoraInicio, String fechaHoraFin, String horaInicio, String horaFin, int estatus, String cliente, String sucursal) {
         this.idReservacion = idReservacion;
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFin = fechaHoraFin;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
         this.estatus = estatus;
         this.cliente = cliente;
         this.sucursal = sucursal;
     }
 
+    public Reservacion(int idReservacion, String fechaHoraInicio, String horaInicio, String horaFin, int estatus, String cliente, String sucursal) {
+        this.idReservacion = idReservacion;
+        this.fechaHoraInicio = fechaHoraInicio;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.estatus = estatus;
+        this.cliente = cliente;
+        this.sucursal = sucursal;
+    }
+
+    
+    
     public int getIdReservacion() {
         return idReservacion;
     }
@@ -77,6 +94,21 @@ public class Reservacion {
     public void setSucursal(String sucursal) {
         this.sucursal = sucursal;
     }
+
+    public String getHoraInicio() {
+        return horaInicio;
+    }       
     
-  
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+                    
+    public String getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
+    }    
+    
 }

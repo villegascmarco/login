@@ -67,10 +67,10 @@ input[type=text], select{
     margin-right: 55%;
 }
 
-#resInfo{
-    margin-left: -5%;
+#resInfo{    
     padding-right: 55%;
     width: 100%;
+    margin-right: 15%;
 }
 
 
@@ -92,4 +92,8 @@ th{
 
 tr{
     width: auto;
+}
+
+#resDetail{
+    margin-left:2%;
 }

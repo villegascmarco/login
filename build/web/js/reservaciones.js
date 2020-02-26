@@ -17,12 +17,12 @@ if (tipo === null || tipo === "") {
 
 
 var listarReservaciones = () => {
-    
+
     var token = json.usuario.token;
-        
-    
+
+
     console.log(token);
-    
+
     $.ajax({
         type: "POST",
         async: true,
@@ -43,13 +43,16 @@ var listarReservaciones = () => {
                 for (key in element) {
                     if (key !== "" || key !== null) {
 
-                        let us = data.usuario;
+                        let us = data;
                         let cell = row.insertCell();
                         let text = document.createTextNode(element[key]);
                         cell.appendChild(text);
+
                     } else {
                     }
                 }
+                let cell2 = row.insertCell(-1);
+                cell2.innerHTML = '<a href="BienvenidoEmpleado.jsp">Ver detalle</a>';
             }
         }
     }

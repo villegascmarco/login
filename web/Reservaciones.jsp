@@ -20,16 +20,19 @@
         
         <div class="container">
             <div class="row">
-                <div class="col-6" id="resInfo">
+                <div class="col-4" id="resInfo">
                     <table id="table" class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">ID Reservación</th>
                                 <th scope="col">Fecha de inicio</th>
-                                <th scope="col">Fecha de fin</th>
+                                <th scope="col">Hora Inicio</th>
+                                <th scope="col">Hora Fin</th>
                                 <th scope="col">Estatus</th>
                                 <th scope="col">Cliente</th>
                                 <th scope="col">Sala</th>
+                                <th scope="col"></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,7 +41,7 @@
                     </table>
                 </div>
                
-                <div class="col-auto" id="resDetail">
+                <div class="col-3" id="resDetail">
                     <h1>Detalle reservación:</h1>
                 </div>
             </div>
