@@ -5,10 +5,7 @@
  */
 package edu.utl.login.modelo;
 
-/**
- *
- * @author pollo
- */
+
 public class Reservacion {
 
     private int idReservacion;
@@ -110,5 +107,5 @@ public class Reservacion {
     public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }    
-    
+
 }
