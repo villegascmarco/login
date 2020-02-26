@@ -79,8 +79,8 @@ public class ControladorEmpleado {
         return cmdE.actualizarEmpleado(e);
     }
 
-    public String listarEmpleados(Usuario u) {
-        if (!ctrl.validarToken(u)) {
+    public String listarEmpleados(Usuario u, int opcion) {
+        if (!ctrl.validarToken(u) || opcion == 1) {
             Gson gson = new Gson();
             String json = cmdE.listarEmpleados();
             return json;

@@ -46,6 +46,9 @@ public class Controlador {
     }
 
     public boolean validarToken(Usuario u) {
+        if (u.getToken() == null) {
+            return false;
+        }
         if (u.getToken().trim().isEmpty()) {
             return false;
         }

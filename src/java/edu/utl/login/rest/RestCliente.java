@@ -6,7 +6,6 @@
 package edu.utl.login.rest;
 
 import com.google.gson.Gson;
-import edu.utl.login.controlador.Controlador;
 import edu.utl.login.controlador.ControladorCliente;
 import edu.utl.login.modelo.Usuario;
 import javax.ws.rs.DefaultValue;

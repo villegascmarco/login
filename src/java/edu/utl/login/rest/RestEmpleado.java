@@ -13,6 +13,7 @@ import edu.utl.login.modelo.Persona;
 import edu.utl.login.modelo.Usuario;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -125,7 +126,23 @@ public class RestEmpleado extends Application {
         Gson gson = new Gson();
 
         Usuario u = new Usuario(0, tokenAdmin);
-        String e = cmdE.listarEmpleados(u);
+        String e = cmdE.listarEmpleados(u, 0);
+        System.out.println(e);
+        return Response.status(Response.Status.OK).entity(e).build();
+
+    }
+
+    @Path("listado2")
+    @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    public Response listado2() {
+
+        Controlador cmd = new Controlador();
+        ControladorEmpleado cmdE = new ControladorEmpleado();
+        Gson gson = new Gson();
+
+        Usuario u = new Usuario(0, "");
+        String e = cmdE.listarEmpleados(u, 1);
         System.out.println(e);
         return Response.status(Response.Status.OK).entity(e).build();
 
