@@ -20,7 +20,7 @@
             <span class="navbar-brand mb-0 h1">MySpa</span>
 
             <ul class="navbar-nav">                
-                <li class="nav-item active" > <a href="reservaciones.jsp">Reservaciones</a></li>
+                <li class="nav-item active" > <a href="Reservaciones.jsp">Reservaciones</a></li>
             </ul>
         </nav>
     </body>

@@ -3,6 +3,7 @@
 var json = JSON.parse(localStorage.getItem("cliente"));
 var tipo = "";
 
+
 if (json !== "" && json !== null) {
     tipo = json.usuario.rol;
 } else {
@@ -16,12 +17,18 @@ if (tipo === null || tipo === "") {
 
 
 var listarReservaciones = () => {
+    
+    var token = json.usuario.token;
+        
+    
+    console.log(token);
+    
     $.ajax({
         type: "POST",
         async: true,
-        url: 'api/reservaciones/listado',
+        url: 'api/empleado/listarReservaciones',
         data: {
-            token: document.getElementById("token").value,
+            token: token
         }
     }).done(function (data)
     {
@@ -30,25 +37,17 @@ var listarReservaciones = () => {
             return;
         } else {
 
-            let reservaciones = JSON.stringify(data);
             let table = document.getElementById('table');
             for (let element of data) {
                 let row = table.insertRow();
                 for (key in element) {
-                    if (key == 'usuario') {
+                    if (key !== "" || key !== null) {
 
                         let us = data.usuario;
-                        let row2 = table.insertRow();
-                        let cell = row.insertCell();
-                        let cell2 = row.insertCell();
-                        let text = document.createTextNode(element[key].idUsuario);
-                        cell.appendChild(text);
-                        let text2 = document.createTextNode(element[key].nombreUsuario);
-                        cell2.appendChild(text2);
-                    } else {
                         let cell = row.insertCell();
                         let text = document.createTextNode(element[key]);
                         cell.appendChild(text);
+                    } else {
                     }
                 }
             }

@@ -10,6 +10,7 @@ import edu.utl.login.baseDatos.conexionBasesDatos;
 import edu.utl.login.modelo.Empleado;
 import edu.utl.login.modelo.Persona;
 import edu.utl.login.modelo.Usuario;
+import edu.utl.login.modelo.Reservacion;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -172,7 +173,7 @@ public class ComandoEmpleado {
 
         return false;
     }
-    
+
     public boolean actualizarEmpleado(Empleado e) {
         Persona p = e.getPersona();
         Usuario u = e.getUsuario();
@@ -214,7 +215,7 @@ public class ComandoEmpleado {
 
             ps.execute();
 
-            query = "CALL actualizarEmpleado(?,?,?,?) " ;
+            query = "CALL actualizarEmpleado(?,?,?,?) ";
 
             ps = conn.getConexión().prepareStatement(query);
 
@@ -289,5 +290,43 @@ public class ComandoEmpleado {
         }
     }
 
+    public String listarReservaciones() {
+        try {
+            Reservacion[] reservaciones = null;
+            Gson gson = new Gson();
+            int renglones = 0;
+            int con = 0;
+            conn.Conectar();
+            query = "SELECT  * FROM v_reservacion";
+            ps = conn.getConexión().prepareStatement(query);
+            rs = ps.executeQuery();
+
+            if (rs.last()) {
+                renglones = rs.getRow();
+                reservaciones = new Reservacion[renglones];
+                rs.beforeFirst();
+                while (rs.next()) {
+                    Reservacion r = new Reservacion();
+                    r.setIdReservacion(rs.getInt("idReservacion"));
+                    r.setFechaHoraInicio(rs.getString("fechaHoraInicio"));
+                    r.setFechaHoraFin(rs.getString("fechaHoraFin"));
+                    r.setEstatus(rs.getInt("estatus"));
+                    r.setCliente(rs.getString("Cliente"));
+                    r.setSucursal(rs.getString("Sucursal"));
+                    reservaciones[con] = r;
+                    con++;
+                }
+            }
+
+            conn.Desconectar();
+
+            System.out.println(reservaciones);
+            return gson.toJson(reservaciones);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

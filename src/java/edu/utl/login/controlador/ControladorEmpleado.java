@@ -89,4 +89,13 @@ public class ControladorEmpleado {
         return null;
     }
 
+    public String listarReservaciones(Usuario u) {
+        if (!ctrl.validarToken(u)) {
+            Gson gson = new Gson();
+            String json = cmdE.listarReservaciones();
+            return json;
+        }
+        return null;
+    }
+
 }
