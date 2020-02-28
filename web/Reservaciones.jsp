@@ -15,35 +15,52 @@
     </head>
     <body onload="listarReservaciones()">
         <jsp:include page="nabvar.jsp"></jsp:include>
-        <div><h2 class="display-4">Reservaciones:</h2></div>
-        
-        
+        <div id="titulo"><h2 class="display-4">Reservaciones:</h2></div>
+
+
         <div class="container">
             <div class="row">
-                <div class="col-4" id="resInfo">
+                <div class="col-xl-12" id="resInfo">
                     <table id="table" class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">ID Reservación</th>
                                 <th scope="col">Fecha de inicio</th>
                                 <th scope="col">Hora Inicio</th>
                                 <th scope="col">Hora Fin</th>
-                                <th scope="col">Estatus</th>
                                 <th scope="col">Cliente</th>
                                 <th scope="col">Sala</th>
                                 <th scope="col"></th>
                                 <th></th>
                             </tr>
+
                         </thead>
                         <tbody>
 
                         </tbody>
                     </table>
                 </div>
-               
-                <div class="col-3" id="resDetail">
+
+<!--                <div class="col-3" id="resDetail">
                     <h1>Detalle reservación:</h1>
-                </div>
+
+                    <table id="tableDetalle" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Fecha de inicio</th>
+                                <th scope="col">Hora Inicio</th>
+                                <th scope="col">Hora Fin</th>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Sala</th>
+                                <th scope="col"></th>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>-->
             </div>
         </div>
 
