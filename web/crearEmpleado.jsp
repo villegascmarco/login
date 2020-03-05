@@ -137,8 +137,8 @@
 
                 <div class=" d-flex justify-content-around ">
 
-                    <button type="button" class="btn logO" onclick="guardarEmpleado()">Guardar empleado</button>
-                    <button type="reset" class="btn upD" >Cancelar</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="guardarEmpleado()">Guardar empleado</button>
+                    <button type="reset" class="btn btn-outline-danger" >Cancelar</button>
                 </div>
             </form>
 

@@ -21,7 +21,7 @@
             <form class="needs-validation" novalidate name="form" id="formulario1" style="width:75%; margin-left: auto; margin-right: auto;">
 
                 <div class="col-md-4 mb-3" style="margin-left: auto; margin-right: auto;">
-                    <label for="validationTooltip01">Id del empleado a eliminar</label>
+                    <label for="validationTooltip01">Id del Empleado a eliminar:</label>
                     <input type="text" class="form-control" id="idEmpleado2" name="validationTooltip01" placeholder="Id Empleado a eliminar"  required >
                     <div class="valid-tooltip">
                         Looks good!
@@ -33,8 +33,8 @@
 
                 <div class=" d-flex justify-content-around ">
 
-                    <button type="button" class="btn upD" onclick="eliminarCuentas()" id="idEliminar">Borrar empleado</button>
-                    <button type="reset" class="btn upD" >Cancelar</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="eliminarCuentas()" id="idEliminar">Borrar empleado</button>
+                    <button type="reset" class="btn btn-outline-danger" >Cancelar</button>
                 </div>
             </form>
 

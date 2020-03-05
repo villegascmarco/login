@@ -112,9 +112,9 @@
 
                 <div class=" d-flex justify-content-around ">
 
-                    <button type="button" class="btn upD" onclick="eliminarMiCuenta()">Eliminar cuenta</button>
-                    <button type="button" class="btn logO" onclick="modificarDatosE()">Actualizar Datos</button>
-                    <button type="button" class="btn upD" onclick="cerrarSesion()">Cerrar Sesión</button>
+                    <button type="button" class="btn btn-outline-danger " onclick="eliminarMiCuenta()">Eliminar cuenta</button>
+                    <button type="button" class="btn btn-outline-success " onclick="modificarDatosE()">Actualizar Datos</button>
+                    <button type="button" class="btn btn-outline-danger " onclick="cerrarSesion()">Cerrar Sesión</button>
                 </div>
             </form>
 

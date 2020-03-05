@@ -16,7 +16,7 @@
     <body>
         <h3 class="display-4">Listado de Empleados</h3>
 
-        <button type="button" class="btn logO" onclick="listarEmpleados()" style="margin-left: 50%; margin-right: auto; margin-bottom: 5%;">Listar</button>
+        <button type="button" class="btn btn-outline-primary" onclick="listarEmpleados()" style="margin-left: 50%; margin-right: auto; margin-bottom: 5%;">Listar</button>
 
         
 

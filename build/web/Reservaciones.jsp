@@ -15,53 +15,37 @@
     </head>
     <body onload="listarReservaciones()">
         <jsp:include page="nabvar.jsp"></jsp:include>
-        <div id="titulo"><h2 class="display-4">Reservaciones:</h2></div>
+            <div id="titulo"><h2 class="display-4">Reservaciones:</h2></div>
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12" id="resInfo">
-                    <table id="table" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">Fecha de inicio</th>
-                                <th scope="col">Hora Inicio</th>
-                                <th scope="col">Hora Fin</th>
-                                <th scope="col">Cliente</th>
-                                <th scope="col">Sala</th>
-                                <th scope="col"></th>
-                                <th></th>
-                            </tr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12" id="resInfo">
+                        <table id="table" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fecha de inicio</th>
+                                    <th scope="col">Hora Inicio</th>
+                                    <th scope="col">Hora Fin</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Sala</th>
+                                    <th scope="col"></th>
+                                    <th></th>
+                                </tr>
 
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
-
-<!--                <div class="col-3" id="resDetail">
-                    <h1>Detalle reservación:</h1>
-
-                    <table id="tableDetalle" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">Fecha de inicio</th>
-                                <th scope="col">Hora Inicio</th>
-                                <th scope="col">Hora Fin</th>
-                                <th scope="col">Cliente</th>
-                                <th scope="col">Sala</th>
-                                <th scope="col"></th>
-                                <th></th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>-->
             </div>
+
+            <div class="modal fade modal-xl modal-centered modal-dialog-scrollable" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <jsp:include page="datosReservacion.jsp"></jsp:include>
         </div>
 
         <script src="js/reservaciones.js"></script>
