@@ -8,6 +8,7 @@ package edu.utl.login.controlador;
 import com.google.gson.Gson;
 import edu.utl.login.baseDatos.comandos.ComandoEmpleado;
 import edu.utl.login.baseDatos.comandos.ComandosGenerales;
+import edu.utl.login.baseDatos.comandos.ComandosReservacion;
 import edu.utl.login.modelo.Empleado;
 import edu.utl.login.modelo.Usuario;
 import java.sql.Timestamp;
@@ -20,6 +21,7 @@ public class ControladorEmpleado {
 
     private ComandosGenerales cmd = new ComandosGenerales();
     private ComandoEmpleado cmdE = new ComandoEmpleado();
+    private ComandosReservacion cmdR = new ComandosReservacion();
     private Controlador ctrl = new Controlador();
 
     public boolean insertar(Empleado e) {
@@ -92,7 +94,7 @@ public class ControladorEmpleado {
     public String listarReservaciones(Usuario u) {
         if (!ctrl.validarToken(u)) {
             Gson gson = new Gson();
-            String json = cmdE.listarReservaciones();
+            String json = cmdR.listarReservaciones();
             return json;
         }
         return null;

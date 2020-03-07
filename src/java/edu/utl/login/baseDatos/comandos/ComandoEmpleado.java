@@ -290,53 +290,5 @@ public class ComandoEmpleado {
         }
     }
 
-    public String listarReservaciones() {
-        try {
-            Reservacion[] reservaciones = null;
-            Gson gson = new Gson();
-            int renglones = 0;
-            int con = 0;
-            conn.Conectar();
-            query = "SELECT  * FROM v_reservacion";
-            ps = conn.getConexión().prepareStatement(query);
-            rs = ps.executeQuery();
-
-            if (rs.last()) {
-                renglones = rs.getRow();
-                reservaciones = new Reservacion[renglones];
-                rs.beforeFirst();
-                while (rs.next()) {
-                    Reservacion r = new Reservacion();
-                    r.setIdReservacion(rs.getInt("idReservacion"));                    
-                    r.setFechaHoraInicio(recortarFecha(rs.getString("fechaHoraInicio")));
-                    r.setEstatus(rs.getInt("estatus"));
-                    r.setHoraInicio(rs.getString("horaInicio"));
-                    r.setHoraFin(rs.getString("horaFin"));
-                    r.setCliente(rs.getString("Cliente"));
-                    r.setSucursal(rs.getString("Sala"));
-                    reservaciones[con] = r;
-                    con++;
-                }
-            }
-
-            conn.Desconectar();
-
-            System.out.println(reservaciones);
-            return gson.toJson(reservaciones);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String recortarFecha(String fecha) {
-        char[] fechaC = fecha.toCharArray();
-        String fechaF = "";
-        for (int i = 0; i < 10; i++) {
-            fechaF += fechaC[i];
-        }
-
-        return fechaF;
-    }
+  
 }

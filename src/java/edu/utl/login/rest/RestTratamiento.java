@@ -6,7 +6,6 @@
 package edu.utl.login.rest;
 
 import com.google.gson.Gson;
-import edu.utl.login.controlador.ControladorProducto;
 import edu.utl.login.controlador.ControladorTratamiento;
 import java.util.Queue;
 import javax.ws.rs.GET;
