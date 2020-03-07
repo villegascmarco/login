@@ -7,6 +7,11 @@ var tipo = "";
 //Arreglo con listado de objetos reservacion
 var reservaciones = null;
 
+//Variable que almacena el objeto producto
+var prodG = null;
+//Arreglo que almacena los objetos producto que se van a guardar en el tratamiento
+var productosG = [];
+
 
 
 if (json !== "" && json !== null) {
@@ -41,7 +46,6 @@ var listarReservaciones = () => {
             return;
         } else {
             reservaciones = data;
-            console.log('Reservaciones: ' + reservaciones);
 
             var datos = "";
             datos += '<tr>';
@@ -74,7 +78,6 @@ var listarReservaciones = () => {
 function mostrarAtender(posicion) {
     if (posicion != null && reservaciones != null && reservaciones[posicion] != null) {
         reservacionA = reservaciones[posicion];
-
 
         var nombre = reservacionA.cliente;
         var fechaI = reservacionA.fechaHoraInicio;
@@ -124,7 +127,6 @@ function listarEmpleados() {
             return;
         } else {
             empleados = data;
-            console.log(empleados.length);
 
             var datos = "";
 
@@ -159,7 +161,6 @@ function listarTratamientos() {
             return;
         } else {
             tratamientos = data;
-            console.log(tratamientos.length);
 
             var datos = "";
 
@@ -185,6 +186,8 @@ var idTrat = 0;
 //Arreglo que se mandaría al REST AQUI VAN LOS PRODUCTOS
 var tratamientosG = [];
 
+
+//Método para listar tratamientos que se guardaron
 function listarTratamientosR() {
 
     var p = ($('#cmbTratamientos').val());
@@ -193,7 +196,6 @@ function listarTratamientosR() {
 
     tratamientosR[tratamientosR.length] = t;
 
-    console.log(tratamientos);
     posTrat = p;
     var datos = "";
     datos += "<tr>";
@@ -209,7 +211,8 @@ function listarTratamientosR() {
         datos += "<tr>";
         datos += "<td>" + tratamientosR[i].nombre + "</td>";
         datos += "<td> $" + tratamientosR[i].costo + "</td>";
-        datos += "<td>  <button type='button' class='btn' id='insertarProducto' onclick='listarProductos(" + i + ")'><i id='iconoPlus' class='fa fa-plus'></i></button> ";
+        datos += "<td>  <button type='button' class='btn btn-outline-warning' id='insertarProducto' onclick='listarProductos(" + i + ")'><i id='iconoPlus' class='fa fa-plus'></i></button> ";
+        datos += "<td>  <button type='button' class='btn btn-outline-danger' id='eliminarProducto' onclick='eliminarTratamiento(" + i + ")'><i id='iconoMinus' class='fa fa-minus'></i></button> ";
         datos += "</tr>";
     }
     $('#tableT').html(datos);
@@ -228,7 +231,6 @@ var productoT = [];
 
 
 function listarProductos(pos) {
-    console.log(tratamientosG);
 
     var token = json.usuario.token;
 
@@ -246,7 +248,6 @@ function listarProductos(pos) {
             return;
         } else {
             productos = data;
-            console.log(productos);
 
             var datos = "";
 
@@ -261,23 +262,31 @@ function listarProductos(pos) {
     var i = pos;
     posTrat = i;
     var j = idTrat;
-
-    window.alert("Posición: " + i + ", ID Tratamiento: " + j);
 }
 ;
 
-//Variable que almacena el objeto producto
-var prodG = null;
-//Arreglo que almacena los objetos producto que se van a guardar en el tratamiento
-var productosG = [];
+
 
 function agregarProductos() {
 
+//Posicion en la que está el objeto producto dentro del comboBox
     var p = ($('#cmbProductos').val());
 
+//Objeto tipo producto, entra al arreglo donde se almacenan los productos y busca el producto en la posicion P
     var t = (productos[p]);
 
+//Asigna dentro del arreglo de productos que se listan en la tabla el objeto seleccionado en el comoBox
     productoT[productoT.length] = t;
+
+//Si el campo productos es = undefined, inicializa el arreglo en 0's
+    if (tratamientosG[posTrat].productos === undefined) {
+        tratamientosG[posTrat].productos = [];
+    }
+
+//Asigna dentro del arreglo de tratamientosGuardar el producto (t)
+    tratamientosG[posTrat].productos.push(t);
+
+
 
     var datos = "";
     datos += "<tr>";
@@ -285,22 +294,23 @@ function agregarProductos() {
     datos += "<th scope='col'>Costo</th>";
     datos += "</tr>";
 
-    window.alert(posTrat);
 
+//Recorre todo el arreglo de productos listados en la tabla productosTabla
     for (var i = 0; i < productoT.length; i++) {
         datos += "<tr>";
         datos += "<td>" + productoT[i].nombre + "</td>";
         datos += "<td> $" + productoT[i].precioUso + "</td>";
+        datos += "<td>  <button type='button' class='btn btn-outline-danger' id='eliminarProducto' onclick='eliminarProducto( " + i + " )'><i id='iconoMinus' class='fa fa-minus'></i></button> ";
         datos += "</tr>";
+        //Asigna el objeto del listado de la tabla a una variable independiente (productosGuaradar)
         prodG = productoT[i];
+        //Asigna el objeto dentro de la posición actual en el arreglo productosGuardar
         productosG[i] = prodG;
+//        productosG[i].push(prodG);
+
     }
     $('#tableP').html(datos);
-    if (tratamientosG[posTrat].productos === undefined) {
-        tratamientosG[posTrat].productos = [];
-    }
-    tratamientosG[posTrat].productos.push(t);
-    console.log(tratamientosG);
+
 }
 
 
@@ -312,7 +322,7 @@ function limpiarTabla() {
     productosG = [];
     tratamientosG = [];
     prodG = null;
-    
+
     datos = "";
     datos += "<tr>";
     datos += "<th scope='col'>Nombre</th>";
@@ -321,7 +331,7 @@ function limpiarTabla() {
     datos += "</tr>";
     $('#tableT').html(datos);
 
-           
+
     datos2 = "";
     datos2 += "<tr>";
     datos2 += "<th scope='col'>Nombre</th>";
@@ -331,4 +341,67 @@ function limpiarTabla() {
     $('#tableP').html(datos2);
     $('#cmbProductos').html("");
 
+}
+
+function eliminarTratamiento(i) {
+    window.alert('Hola');
+    tratamientosR.splice(i, 1);
+    tratamientosG.splice(i, 1);
+    console.log(tratamientosR);
+    console.log(tratamientosG);
+
+    var datos = "";
+    datos += "<tr>";
+    datos += "<th scope='col'>Nombre</th>";
+    datos += "<th scope='col'>Costo</th>";
+    datos += "<th scope='col'> </th>";
+    datos += "</tr>";
+
+    for (var i = 0; i < tratamientosR.length; i++) {
+
+        idTrat = tratamientos[i].idTratamiento;
+        tratamientosG[i] = tratamientosR[i];
+        datos += "<tr>";
+        datos += "<td>" + tratamientosR[i].nombre + "</td>";
+        datos += "<td> $" + tratamientosR[i].costo + "</td>";
+        datos += "<td>  <button type='button' class='btn btn-outline-warning' id='insertarProducto' onclick='listarProductos(" + i + ")'><i id='iconoPlus' class='fa fa-plus'></i></button> ";
+        datos += "<td>  <button type='button' class='btn btn-outline-danger' id='eliminarProducto' onclick='eliminarProducto(" + i + ")'><i id='iconoMinus' class='fa fa-minus'></i></button> ";
+        datos += "</tr>";
+    }
+    $('#tableT').html(datos);
+}
+
+
+function eliminarProducto(i) {
+    window.alert('Hola');
+
+    productoT.splice(i, 1);
+    productosG.splice(i, 1);
+
+
+
+
+//    tratamientosG[posTrat].productos = productosG;
+
+    var datos = "";
+    datos += "<tr>";
+    datos += "<th scope='col'>Nombre</th>";
+    datos += "<th scope='col'>Costo</th>";
+    datos += "<th scope='col'> </th>";
+    datos += "</tr>";
+
+    tratamientosR[posTrat].productos = productosG;
+//    tratamientosG[posTrat].productos = productosG;
+
+    for (var i = 0; i < productoT.length; i++) {
+
+//        idTrat = tratamientos[i].idTratamiento;
+//        productosG[i] = productoT[i];
+        datos += "<tr>";
+        datos += "<td>" + productoT[i].nombre + "</td>";
+        datos += "<td> $" + productoT[i].precioUso + "</td>";
+        datos += "<td>  <button type='button' class='btn btn-outline-danger' id='eliminarProducto' onclick='eliminarProducto(" + i + ")'><i id='iconoMinus' class='fa fa-minus'></i></button> ";
+        datos += "</tr>";
+    }
+    $('#tableP').html(datos);
 }

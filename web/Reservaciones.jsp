@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="modal fade modal-xl modal-centered modal-dialog-scrollable" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade modal-xl modal-dialog-scrollable" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <jsp:include page="datosReservacion.jsp"></jsp:include>
         </div>
 

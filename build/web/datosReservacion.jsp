@@ -15,8 +15,8 @@
 
     </head>
     <body>
-        <div class="modal-dialog modal-xl modal-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content modal-xl modal-centered">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content modal-xl">
                 <div class="modal-header">
                     <h1 class="modal-title" id="exampleModalCenterTitle">Detalles reservación</h1>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="limpiarTabla()">
