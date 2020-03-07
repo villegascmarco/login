@@ -2,6 +2,10 @@
 
 var json = JSON.parse(localStorage.getItem("cliente"));
 
+
+var token = json.usuario.token;
+
+
 var tipo = "";
 
 //Arreglo con listado de objetos reservacion
@@ -30,7 +34,6 @@ var numR;
 
 var listarReservaciones = () => {
 
-    var token = json.usuario.token;
 
     $.ajax({
         type: "POST",
@@ -190,6 +193,8 @@ var tratamientosG = [];
 //Método para listar tratamientos que se guardaron
 function listarTratamientosR() {
 
+
+
     var p = ($('#cmbTratamientos').val());
 
     var t = (tratamientos[p]);
@@ -286,6 +291,20 @@ function agregarProductos() {
 //Asigna dentro del arreglo de tratamientosGuardar el producto (t)
     tratamientosG[posTrat].productos.push(t);
 
+//Si el campo emplado es = undefined, inicializa el arreglo en 0's
+    if (tratamientosG[posTrat].empleado === undefined) {
+        tratamientosG[posTrat].empleado = [];
+    }
+
+    //ID del empleado que seleccionó para agregar tratamientos y productos
+    var e = ($('#cmbEmpleados').val());
+    var t = token;
+
+    var data = '{ "idEmpleado":' + e + ', "token":"' + t + '"}';
+    var jso = JSON.parse(data);
+    tratamientosG[posTrat].empleado.push(jso);
+
+//    tratamientosG[posTrat].empleado.push(token);
 
 
     var datos = "";
@@ -306,7 +325,6 @@ function agregarProductos() {
         prodG = productoT[i];
         //Asigna el objeto dentro de la posición actual en el arreglo productosGuardar
         productosG[i] = prodG;
-//        productosG[i].push(prodG);
 
     }
     $('#tableP').html(datos);
@@ -378,11 +396,6 @@ function eliminarProducto(i) {
     productoT.splice(i, 1);
     productosG.splice(i, 1);
 
-
-
-
-//    tratamientosG[posTrat].productos = productosG;
-
     var datos = "";
     datos += "<tr>";
     datos += "<th scope='col'>Nombre</th>";
@@ -391,12 +404,9 @@ function eliminarProducto(i) {
     datos += "</tr>";
 
     tratamientosR[posTrat].productos = productosG;
-//    tratamientosG[posTrat].productos = productosG;
 
     for (var i = 0; i < productoT.length; i++) {
 
-//        idTrat = tratamientos[i].idTratamiento;
-//        productosG[i] = productoT[i];
         datos += "<tr>";
         datos += "<td>" + productoT[i].nombre + "</td>";
         datos += "<td> $" + productoT[i].precioUso + "</td>";
