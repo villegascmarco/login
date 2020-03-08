@@ -84,6 +84,7 @@ th, td, tr{
 
 #resDetail{
     margin-left:2%;
+    margin-right:2%;
 }
 
 .modalF{
@@ -153,9 +154,10 @@ th, td, tr{
     overflow-x: auto;    
 }
 
-.modal{
+#exampleModalCenter{
     margin-left: auto;
     margin-top: auto;
     margin-bottom: auto;
     margin-right: auto;
 }
+

@@ -96,7 +96,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal" onclick="limpiarTabla()"> Cancelar</button>
-                    <button type="button" class="btn btn-outline-primary">Guardar</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="calcularTotal()">Guardar</button>
                 </div>
             </div>
         </div>

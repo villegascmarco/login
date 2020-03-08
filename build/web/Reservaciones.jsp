@@ -32,7 +32,6 @@
                                     <th scope="col"></th>
                                     <th></th>
                                 </tr>
-
                             </thead>
                             <tbody>
 
