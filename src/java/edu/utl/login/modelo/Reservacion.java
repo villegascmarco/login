@@ -13,6 +13,7 @@ public class Reservacion {
     private int estatus;
     private int idCliente;
     private int idSala;
+    private int idHorario;
 
     private String horaInicio;
     private String horaFin;
@@ -28,13 +29,18 @@ public class Reservacion {
         this.idSala = idSala;
     }
 
-    public Reservacion(int idReservacion, String fechaHoraInicio, String fechaHoraFin, int estatus, int idCliente, int idSala) {
+    public Reservacion(int idReservacion, String fechaHoraInicio, String fechaHoraFin, int estatus, int idCliente, int idSala, int idHorario, String horaInicio, String horaFin, String cliente, String sucursal) {
         this.idReservacion = idReservacion;
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFin = fechaHoraFin;
         this.estatus = estatus;
         this.idCliente = idCliente;
         this.idSala = idSala;
+        this.idHorario = idHorario;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.cliente = cliente;
+        this.sucursal = sucursal;
     }
 
     public int getIdReservacion() {
@@ -83,6 +89,14 @@ public class Reservacion {
 
     public void setIdSala(int idSala) {
         this.idSala = idSala;
+    }
+
+    public int getIdHorario() {
+        return idHorario;
+    }
+
+    public void setIdHorario(int idHorario) {
+        this.idHorario = idHorario;
     }
 
     /**

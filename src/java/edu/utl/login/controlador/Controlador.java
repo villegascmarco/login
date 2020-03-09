@@ -7,17 +7,19 @@ package edu.utl.login.controlador;
 
 import com.google.gson.Gson;
 import edu.utl.login.baseDatos.comandos.ComandoCliente;
-import edu.utl.login.baseDatos.comandos.ComandosGenerales;
+import edu.utl.login.baseDatos.comandos.ComandoGenerales;
 import edu.utl.login.baseDatos.conexionBasesDatos;
 import edu.utl.login.modelo.Cliente;
 import edu.utl.login.modelo.Empleado;
 import edu.utl.login.modelo.Usuario;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Controlador {
 
     private conexionBasesDatos conn = new conexionBasesDatos();
     private ComandoCliente ccli = new ComandoCliente();
-    private ComandosGenerales cmd = new ComandosGenerales();
+    private ComandoGenerales cmd = new ComandoGenerales();
 
     public String inicarSesion(Usuario u) {
         Cliente c;
@@ -45,16 +47,6 @@ public class Controlador {
         return usuario;
     }
 
-    public boolean validarToken(Usuario u) {
-        if (u.getToken() == null) {
-            return false;
-        }
-        if (u.getToken().trim().isEmpty()) {
-            return false;
-        }
-        return cmd.validarToken(u);
-    }
-
     public String limpiarDato(String dato) {
 
         String original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝß";
@@ -72,6 +64,14 @@ public class Controlador {
         }
 
         return resultado;
+    }
+
+    public String generarFecha() {
+
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime myDateObj = LocalDateTime.now();
+
+        return myDateObj.format(myFormatObj);
     }
 
 }

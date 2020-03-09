@@ -41,7 +41,7 @@ public class ComandoEmpleado {
 
             conn.setAutoCommit(false);
 
-            query = "{call insertarPersona(?,?, ?, ?, ?, ?, ?, ?)}";
+            query = "{call insertarPersona( ?, ?, ?, ?, ?, ?, ?, ?)}";
 
             cs = conn.getConexión().prepareCall(query);
 
@@ -229,7 +229,7 @@ public class ComandoEmpleado {
 
             conn.commit();
 
-            ComandosGenerales cmd = new ComandosGenerales();
+            ComandoGenerales cmd = new ComandoGenerales();
 
             String out = cmd.buscarUsuario(u, 2);
 

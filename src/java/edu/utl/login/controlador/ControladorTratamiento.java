@@ -5,8 +5,8 @@
  */
 package edu.utl.login.controlador;
 
-import edu.utl.login.baseDatos.comandos.ComandosProducto;
-import edu.utl.login.baseDatos.comandos.ComandosTratamiento;
+import edu.utl.login.baseDatos.comandos.ComandoProducto;
+import edu.utl.login.baseDatos.comandos.ComandoTratamiento;
 import java.util.Queue;
 
 /**
@@ -16,7 +16,7 @@ import java.util.Queue;
 public class ControladorTratamiento {
 
     public Queue listarTratamientos() {
-        ComandosTratamiento cmdT = new ComandosTratamiento();
+        ComandoTratamiento cmdT = new ComandoTratamiento();
         return cmdT.listarTratamientos();
 
     }

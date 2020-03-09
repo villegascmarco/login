@@ -6,11 +6,10 @@
 package edu.utl.login.controlador;
 
 import com.google.gson.Gson;
-import edu.utl.login.baseDatos.comandos.ComandosReservacion;
+import edu.utl.login.baseDatos.comandos.ComandoReservacion;
 import edu.utl.login.modelo.Horario;
 import edu.utl.login.modelo.Reservacion;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import edu.utl.login.modelo.Usuario;
 import java.util.LinkedList;
 
 /**
@@ -20,7 +19,7 @@ import java.util.LinkedList;
 public class ControladorReservacion {
 
     private Horario horarios = new Horario();
-    private ComandosReservacion cmdR = new ComandosReservacion();
+    private ComandoReservacion cmdReservacion = new ComandoReservacion();
     private Gson gson = new Gson();
 
     public String convertirAJson() {
@@ -31,7 +30,7 @@ public class ControladorReservacion {
         if ("0".equals(fecha)) {
             return null;
         }
-        return gson.toJson(cmdR.consultarHorariosDisponibles(fecha, idSala));
+        return gson.toJson(cmdReservacion.consultarHorariosDisponibles(fecha, idSala));
     }
 
     public String agregarReservacion(String horarioInicio, String fecha, int idSala, int idCliente) {
@@ -39,7 +38,7 @@ public class ControladorReservacion {
 
         reservacion = crearFecha(crearHorario(horarioInicio), reservacion, fecha);
 
-        return cmdR.crearReservacion(reservacion);
+        return cmdReservacion.crearReservacion(reservacion);
     }
 
     public Horario crearHorario(String horarioInicio) {
@@ -55,11 +54,32 @@ public class ControladorReservacion {
     }
 
     public Reservacion crearFecha(Horario horario, Reservacion reservacion, String fecha) {
+        reservacion.setHoraInicio(horario.getHoraInicio());
+        reservacion.setHoraFin(horario.getHoraFin());
+
+        reservacion.setIdHorario(horario.getIdHorario());
 
         reservacion.setFechaHoraInicio(fecha + " " + horario.getHoraInicio());
         reservacion.setFechaHoraFin(fecha + " " + horario.getHoraFin());
 
         return reservacion;
+    }
+
+    public String eliminarReservación(int idReservacion, int idUsuario, String token) {
+        ControladorUsuario ctrlUsuario = new ControladorUsuario();
+
+        Usuario usuario = new Usuario(idUsuario, token);
+
+        if (!ctrlUsuario.validarToken(usuario)) {
+            return "Token inválido";
+        }
+
+        if (cmdReservacion.eliminarReservacion(idReservacion)) {
+            return "Éxito";
+        }
+
+        return "Hubo un problema en la BD";
+
     }
 
 }

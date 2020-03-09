@@ -6,9 +6,9 @@
 package edu.utl.login.rest;
 
 import edu.utl.login.controlador.ControladorReservacion;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,12 +37,31 @@ public class RestReservacion extends Application {
             @FormParam("idSucursal")
             @DefaultValue("0") int idSucursal,
             @FormParam("idCliente")
-            @DefaultValue("0") int idCliente) {
-        String json = null;
+            @DefaultValue("0") int idCliente,
+            @FormParam("tokenCliente")
+            @DefaultValue("0") String tokenCliente) {
+        String json;
 
         ControladorReservacion ctrlR = new ControladorReservacion();
 
         json = ctrlR.agregarReservacion(horarioInicio, fecha, idSala, idCliente);
+
+        return Response.status(Response.Status.OK).entity(json).build();
+    }
+
+    @Path("eliminar")
+    @Produces(MediaType.APPLICATION_JSON)
+    @DELETE
+    public Response eliminar(
+            @QueryParam("idReservación")
+            @DefaultValue("0") int idReservación,
+            @QueryParam("idUsuario")
+            @DefaultValue("0") int idUsuario,
+            @QueryParam("token")
+            @DefaultValue("0") String token) {
+        ControladorReservacion ctrlReservacion = new ControladorReservacion();
+
+        String json = ctrlReservacion.eliminarReservación(idReservación, idUsuario, token);
 
         return Response.status(Response.Status.OK).entity(json).build();
     }

@@ -7,8 +7,9 @@ package edu.utl.login.controlador;
 
 import com.google.gson.Gson;
 import edu.utl.login.baseDatos.comandos.ComandoEmpleado;
-import edu.utl.login.baseDatos.comandos.ComandosGenerales;
-import edu.utl.login.baseDatos.comandos.ComandosReservacion;
+import edu.utl.login.baseDatos.comandos.ComandoGenerales;
+import edu.utl.login.baseDatos.comandos.ComandoReservacion;
+import edu.utl.login.baseDatos.comandos.ComandoUsuario;
 import edu.utl.login.modelo.Empleado;
 import edu.utl.login.modelo.Usuario;
 import java.sql.Timestamp;
@@ -19,13 +20,14 @@ import java.sql.Timestamp;
  */
 public class ControladorEmpleado {
 
-    private ComandosGenerales cmd = new ComandosGenerales();
+    private ComandoGenerales cmd = new ComandoGenerales();
     private ComandoEmpleado cmdE = new ComandoEmpleado();
-    private ComandosReservacion cmdR = new ComandosReservacion();
+    ComandoUsuario cmdUsuario = new ComandoUsuario();
+    private ComandoReservacion cmdR = new ComandoReservacion();
     private Controlador ctrl = new Controlador();
 
     public boolean insertar(Empleado e) {
-        if (!ctrl.validarToken(e.getUsuario())) {
+        if (!cmdUsuario.validarToken(e.getUsuario())) {
             return false;
         }
 
@@ -67,7 +69,7 @@ public class ControladorEmpleado {
 
     public boolean eliminarCuenta(String idEmpleado, String token, String idUsuario) {
         Usuario u = new Usuario(Integer.parseInt(idUsuario), token);
-        if (!ctrl.validarToken(u)) {
+        if (!cmdUsuario.validarToken(u)) {
             return false;
         }
 
@@ -75,14 +77,14 @@ public class ControladorEmpleado {
     }
 
     public boolean actualizarCuenta(Empleado e) {
-        if (!ctrl.validarToken(e.getUsuario())) {
+        if (!cmdUsuario.validarToken(e.getUsuario())) {
             return false;
         }
         return cmdE.actualizarEmpleado(e);
     }
 
     public String listarEmpleados(Usuario u, int opcion) {
-        if (!ctrl.validarToken(u) || opcion == 1) {
+        if (!cmdUsuario.validarToken(u) || opcion == 1) {
             Gson gson = new Gson();
             String json = cmdE.listarEmpleados();
             return json;
@@ -92,7 +94,7 @@ public class ControladorEmpleado {
     }
 
     public String listarReservaciones(Usuario u) {
-        if (!ctrl.validarToken(u)) {
+        if (!cmdUsuario.validarToken(u)) {
             Gson gson = new Gson();
             String json = cmdR.listarReservaciones();
             return json;

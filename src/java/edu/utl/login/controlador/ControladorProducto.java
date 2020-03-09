@@ -5,7 +5,7 @@
  */
 package edu.utl.login.controlador;
 
-import edu.utl.login.baseDatos.comandos.ComandosProducto;
+import edu.utl.login.baseDatos.comandos.ComandoProducto;
 import java.util.Queue;
 
 /**
@@ -15,7 +15,7 @@ import java.util.Queue;
 public class ControladorProducto {
 
     public Queue listarProductos() {
-        ComandosProducto cmdP = new ComandosProducto();
+        ComandoProducto cmdP = new ComandoProducto();
         return cmdP.listarProductos();
 
     }

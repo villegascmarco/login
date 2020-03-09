@@ -6,7 +6,8 @@
 package edu.utl.login.controlador;
 
 import edu.utl.login.baseDatos.comandos.ComandoCliente;
-import edu.utl.login.baseDatos.comandos.ComandosGenerales;
+import edu.utl.login.baseDatos.comandos.ComandoGenerales;
+import edu.utl.login.baseDatos.comandos.ComandoUsuario;
 import edu.utl.login.modelo.Cliente;
 import edu.utl.login.modelo.Usuario;
 import java.sql.Timestamp;
@@ -18,12 +19,13 @@ import java.sql.Timestamp;
 public class ControladorCliente {
 
     private ComandoCliente ccli = new ComandoCliente();
-    private ComandosGenerales cmd = new ComandosGenerales();
+    private ComandoGenerales cmd = new ComandoGenerales();
+    private ComandoUsuario cmdUsuario = new ComandoUsuario();
     private Controlador ctrl = new Controlador();
 
     public Cliente modificarDatos(Cliente c) {
 
-        if (ctrl.validarToken(c.getUsuario())) {
+        if (cmdUsuario.validarToken(c.getUsuario())) {
             c = ccli.modificarDatos(c);
             return c;
         }
@@ -31,7 +33,7 @@ public class ControladorCliente {
     }
 
     public boolean cerrarSesion(Usuario u) {
-        if (ctrl.validarToken(u)) {
+        if (cmdUsuario.validarToken(u)) {
             u.cerrarSesion();
 
             cmd.actualizarToken(u);
@@ -41,7 +43,7 @@ public class ControladorCliente {
     }
 
     public boolean eliminarCuenta(Usuario u) {
-        if (ctrl.validarToken(u)) {
+        if (cmdUsuario.validarToken(u)) {
             u.cerrarSesion();
 
             cmd.actualizarToken(u);
