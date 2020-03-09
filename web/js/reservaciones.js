@@ -16,7 +16,8 @@ var prodG = null;
 //Arreglo que almacena los objetos producto que se van a guardar en el tratamiento
 var productosG = [];
 
-
+//Arreglo que contiene los tratamientos y el empleado encargado de la reservación
+var reservacionTratamientos = [];
 
 if (json !== "" && json !== null) {
     tipo = json.usuario.rol;
@@ -75,7 +76,7 @@ var listarReservaciones = () => {
                 datos += "</tr>";
             }
             datos += '</tbody>';
-                    
+
             $('#table').html(datos);
         }
     }
@@ -205,6 +206,9 @@ function listarTratamientosR() {
 
     tratamientosR[tratamientosR.length] = t;
 
+
+
+
     posTrat = p;
     var datos = "";
     var datos = "<thead>";
@@ -215,6 +219,8 @@ function listarTratamientosR() {
     datos += "</tr>";
     datos += "</thead>";
     datos += "<tbody>";
+
+
 
     for (var i = 0; i < tratamientosR.length; i++) {
 
@@ -229,6 +235,7 @@ function listarTratamientosR() {
     }
     datos += "</tbody>";
     $('#tableT').html(datos);
+
 
 }
 
@@ -303,21 +310,7 @@ function agregarProductos() {
 //Asigna dentro del arreglo de tratamientosGuardar el producto (t)
     tratamientosG[posTrat].productos.push(t);
 
-//Si el campo emplado es = undefined, inicializa el arreglo en 0's
-    if (tratamientosG[posTrat].empleado === undefined) {
-        tratamientosG[posTrat].empleado = [];
-    }
 
-//ID del empleado que seleccionó para agregar tratamientos y productos
-    var e = ($('#cmbEmpleados').val());
-    var t = token;
-
-    var data = '{"idEmpleado":' + e + ', "token":"' + t + '"}';
-    var jso = JSON.parse(data);
-
-    if (tratamientosG[posTrat].empleado.length < 1) {
-        tratamientosG[posTrat].empleado.push(jso);
-    }
 
     var datos = "";
     datos += "<thead>";
@@ -403,7 +396,7 @@ function eliminarTratamiento(i) {
         datos += "<tr>";
         datos += "<td>" + tratamientosR[i].nombre + "</td>";
         datos += "<td> $" + tratamientosR[i].costo + "</td>";
-        datos += "<td>  <button type='button' class='btn btn-outline-warning' id='insertarProducto' onclick='listarProductos(" + i + ")'><i id='iconoPlus' class='fa fa-plus'></i></button> ";
+        datos += "<td>  <button type='button' class='btn btn-outline-info' id='insertarProducto' onclick='listarProductos(" + i + ")'><i id='iconoPlus' class='fa fa-plus'></i></button> ";
         datos += "<td>  <button type='button' class='btn btn-outline-danger' id='eliminarProducto' onclick='eliminarProducto(" + i + ")'><i id='iconoMinus' class='fa fa-minus'></i></button> ";
         datos += "</tr>";
     }
@@ -445,10 +438,47 @@ function eliminarProducto(p) {
     $('#tableP').html(datos);
 }
 
-function calcularTotal(){
+function calcularTotal() {
+
+
+//SE AGREGA ARREGLO CON RESERVACION
+    if (reservacionTratamientos.reservacion === undefined) {
+        reservacionTratamientos.reservacion = [];
+    }
+
+    var data = '{"idReservacion":' + reservacionA.idReservacion + '}';
+    var jso = JSON.parse(data);
+
+    reservacionTratamientos.reservacion.push(jso);
+
+
+//SE AGREGA ARREGLO CON EMPLEADO
+    if (reservacionTratamientos.empleado === undefined) {
+        reservacionTratamientos.empleado = [];
+    }
+
+    var e = ($('#cmbEmpleados').val());
+    var t = token;
+
+    var data = '{"idEmpleado":' + e + ', "token":"' + t + '"}';
+    var jso = JSON.parse(data);
+
+    if (reservacionTratamientos.empleado.length < 1) {
+        reservacionTratamientos.empleado.push(jso);
+    }
+
+
+//SE AGREGA ARREGLO DE TRATAMIENTOS CON ARREGLO DE PRODUCTOS
+    if (reservacionTratamientos.tratamiento === undefined) {
+        reservacionTratamientos.tratamiento = [];
+    }
+
+    reservacionTratamientos.tratamiento.push(tratamientosG);
+
+
     var total = 0;
     for (var i = 0; i < productoT.length; i++) {
-        
+
         total += Number(document.getElementById('precioProducto').innerText);
     }
     window.alert(total);
