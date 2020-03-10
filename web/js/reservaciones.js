@@ -117,7 +117,7 @@ function mostrarAtender(posicion) {
 
 //Arreglo con todos los objetos empleados
 var empleados = null;
-
+var usuario;
 function listarEmpleados() {
     var token = json.usuario.token;
 
@@ -140,6 +140,7 @@ function listarEmpleados() {
 
 
             for (var i = 0; i < empleados.length; i++) {
+                usuario = empleados[i].usuario;
                 datos += "<option value=" + empleados[i].idEmpleado + ">" + empleados[i].puesto + "</option>";
                 $('#cmbEmpleados').html(datos);
             }
@@ -452,20 +453,38 @@ function calcularTotal() {
     reservacionTratamientos.reservacion.push(jso);
 
 
+
+
 //SE AGREGA ARREGLO CON EMPLEADO
     if (reservacionTratamientos.empleado === undefined) {
         reservacionTratamientos.empleado = [];
     }
 
-    var e = ($('#cmbEmpleados').val());
-    var t = token;
+    if (reservacionTratamientos.empleado.idEmpleado === undefined) {
+        reservacionTratamientos.empleado.idEmpleado = '';
+    }
 
-    var data = '{"idEmpleado":' + e + ', "token":"' + t + '"}';
-    var jso = JSON.parse(data);
+    var e = ($('#cmbEmpleados').val());
+
+    reservacionTratamientos.empleado.idEmpleado = e;
 
     if (reservacionTratamientos.empleado.length < 1) {
         reservacionTratamientos.empleado.push(jso);
     }
+
+    if (usuario.token === undefined) {
+        usuario.token = '';
+    }
+    usuario.token = token;
+
+    if (reservacionTratamientos.empleado.usuario === undefined) {
+        reservacionTratamientos.empleado.usuario = [];
+    }
+
+    reservacionTratamientos.empleado.usuario.push(usuario);
+
+
+
 
 
 //SE AGREGA ARREGLO DE TRATAMIENTOS CON ARREGLO DE PRODUCTOS
