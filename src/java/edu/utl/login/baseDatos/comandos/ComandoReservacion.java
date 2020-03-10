@@ -7,8 +7,10 @@ package edu.utl.login.baseDatos.comandos;
 
 import com.google.gson.Gson;
 import edu.utl.login.baseDatos.conexionBasesDatos;
+import edu.utl.login.controlador.ControladorUsuario;
 import edu.utl.login.modelo.Horario;
 import edu.utl.login.modelo.Reservacion;
+import edu.utl.login.modelo.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -94,7 +96,7 @@ public class ComandoReservacion {
 
             conn.setAutoCommit(false);
 
-            query = "SELECT  * FROM where estatus = 1";
+            query = "SELECT * FROM v_reservacion where estatus = 1";
 
             ps = conn.getConexión().prepareStatement(query);
 
@@ -202,4 +204,5 @@ public class ComandoReservacion {
 
         return respuesta;
     }
+
 }

@@ -8,6 +8,7 @@ package edu.utl.login.controlador;
 import com.google.gson.Gson;
 import edu.utl.login.baseDatos.comandos.ComandoServicio;
 import edu.utl.login.modelo.Servicio;
+import edu.utl.login.modelo.Usuario;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,23 +17,34 @@ import java.time.format.DateTimeFormatter;
  * @author marco
  */
 public class ControladorServicio {
-    
+
     public String agregarTratamiento(Servicio servicio) {
         ControladorUsuario ctrUsuario = new ControladorUsuario();
         Controlador ctrl = new Controlador();
         ComandoServicio cmdServicio = new ComandoServicio();
-        
+
         if (!ctrUsuario.validarToken(servicio.getEmpleado().getUsuario())) {
             return "Token inválido";
         }
-        
+
         servicio.setFecha(ctrl.generarFecha());
-        
+
         if (cmdServicio.agregarServicio(servicio)) {
-            
+
         }
         Gson gson = new Gson();
         return gson.toJson(servicio);
     }
-    
+
+    public String listado(Usuario u) {
+        ControladorUsuario ctrlUsuario = new ControladorUsuario();
+        ComandoServicio cmdServicio = new ComandoServicio();
+
+        if (!ctrlUsuario.validarToken(u)) {
+            return "Token inválido";
+        }
+
+        return cmdServicio.listado();
+    }
+
 }

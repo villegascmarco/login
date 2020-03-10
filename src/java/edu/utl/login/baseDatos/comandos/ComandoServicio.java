@@ -5,14 +5,18 @@
  */
 package edu.utl.login.baseDatos.comandos;
 
+import com.google.gson.Gson;
 import edu.utl.login.baseDatos.conexionBasesDatos;
+import edu.utl.login.modelo.Empleado;
 import edu.utl.login.modelo.Producto;
+import edu.utl.login.modelo.Reservacion;
 import edu.utl.login.modelo.Servicio;
 import edu.utl.login.modelo.Tratamiento;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 /**
  *
@@ -97,6 +101,38 @@ public class ComandoServicio {
 
             conn.Desconectar();
         }
+        return respuesta;
+    }
+
+    public String listado() {
+        String respuesta;
+        Gson gson = new Gson();
+        Servicio servicio;
+        LinkedList<Servicio> servicios = new LinkedList<>();
+
+        try {
+
+            conn.Conectar();
+
+            query = "SELECT * FROM v_listadoServicio";
+
+            ps = conn.getConexión().prepareStatement(query);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                servicio = new Servicio(rs.getInt(1), rs.getString(2), null, null, null);
+                servicios.add(servicio);
+            }
+
+            respuesta = gson.toJson(servicios);
+
+        } catch (Exception e) {
+            respuesta = null;
+        } finally {
+            conn.Desconectar();
+        }
+
         return respuesta;
     }
 
