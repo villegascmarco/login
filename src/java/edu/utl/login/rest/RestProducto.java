@@ -35,9 +35,8 @@ public class RestProducto extends Application {
         Gson gson = new Gson();
 
         Queue productos = ctrlP.listarProductos();
-
         json = gson.toJson(productos);
-
+        System.out.println(json);
         return Response.status(Response.Status.OK).entity(json).build();
     }
 

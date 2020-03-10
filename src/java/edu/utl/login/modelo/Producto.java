@@ -14,18 +14,18 @@ public class Producto {
     private int idProducto;
     private String nombre;
     private String marca;
-    private double precioUso;
     private int status;
+    private double precioUso;
 
     public Producto() {
     }
 
-    public Producto(int idProducto, String nombre, String marca, double precioUso, int status) {
+    public Producto(int idProducto, String nombre, String marca, int status, double precioUso) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.marca = marca;
-        this.precioUso = precioUso;
         this.status = status;
+        this.precioUso = precioUso;
     }
 
     public int getIdProducto() {
