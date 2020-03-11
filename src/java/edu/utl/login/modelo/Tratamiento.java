@@ -16,6 +16,7 @@ public class Tratamiento {
     private String descripcion;
     private double costo;
     private int estatus;
+    private Producto productos[];
 
     public Tratamiento() {
     }
@@ -26,6 +27,15 @@ public class Tratamiento {
         this.descripcion = descripcion;
         this.costo = costo;
         this.estatus = estatus;
+    }
+
+    public Tratamiento(int idTratamiento, String nombre, String descripcion, double costo, int estatus, Producto[] productos) {
+        this.idTratamiento = idTratamiento;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.costo = costo;
+        this.estatus = estatus;
+        this.productos = productos;
     }
 
     public int getIdTratamiento() {
@@ -66,6 +76,14 @@ public class Tratamiento {
 
     public void setEstatus(int estatus) {
         this.estatus = estatus;
+    }
+
+    public Producto[] getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Producto[] productos) {
+        this.productos = productos;
     }
 
 }
