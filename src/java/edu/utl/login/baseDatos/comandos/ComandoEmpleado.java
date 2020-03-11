@@ -267,7 +267,11 @@ public class ComandoEmpleado {
                 rs.beforeFirst();
                 while (rs.next()) {
                     Empleado e = new Empleado();
+                    Persona p = new Persona();
                     Usuario u = new Usuario();
+                    
+                    p.setNombre(rs.getString("nombre"));
+                    e.setPersona(p);
                     u.setIdUsuario(rs.getInt("idUsuario"));
                     u.setNombreUsuario(rs.getString("nombreUsuario"));
                     e.setIdEmpleado(rs.getInt("idEmpleado"));
