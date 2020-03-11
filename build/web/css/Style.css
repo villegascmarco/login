@@ -117,6 +117,8 @@ th, td, tr{
 
 #cmbTratamientos{
     max-width:200px;    
+    border-bottom-right-radius:8px;
+    border-top-right-radius:8px;
 }
 
 #cmbTratamientos, option{

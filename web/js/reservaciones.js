@@ -17,7 +17,7 @@ var prodG = null;
 var productosG = [];
 
 //Arreglo que contiene los tratamientos y el empleado encargado de la reservación
-var reservacionTratamientos = [];
+var reservacionTratamientos = new Object;
 
 if (json !== "" && json !== null) {
     tipo = json.usuario.rol;
@@ -141,7 +141,7 @@ function listarEmpleados() {
 
             for (var i = 0; i < empleados.length; i++) {
                 usuario = empleados[i].usuario;
-                datos += "<option value=" + empleados[i].idEmpleado + ">" + empleados[i].puesto + "</option>";
+                datos += "<option value=" + empleados[i].idEmpleado + ">" + usuario.nombreUsuario + "</option>";
                 $('#cmbEmpleados').html(datos);
             }
         }
@@ -371,14 +371,12 @@ function limpiarTabla() {
 //p es la posición de la tabla en la que está el tratamiento a eliminar
 function eliminarTratamiento(p) {
 
-    window.alert(tratamientosG[p].productos.length);
-
     if (tratamientosG[p].productos !== undefined) {
 
         var lo = tratamientosG[p].productos.length;
         tratamientosG[p].productos.splice(p, lo);
         productoT.splice(p, lo);
-        
+
         var datos = "";
         datos += "<tr>";
         datos += "<th scope='col'>Nombre</th>";
@@ -398,7 +396,7 @@ function eliminarTratamiento(p) {
         datos += "</tbody>";
         $('#tableP').html(datos);
     }
-    window.alert('Eliminao');
+    window.alert('Eliminado!');
     tratamientosR.splice(p, 1);
     tratamientosG.splice(p, 1);
 
@@ -458,7 +456,7 @@ function eliminarProducto(p, posi) {
     $('#tableP').html(datos);
 }
 
-function calcularTotal() {
+function guardarServicio() {
 
 //SE AGREGA ARREGLO CON RESERVACION
     if (reservacionTratamientos.reservacion === undefined) {
@@ -505,7 +503,10 @@ function calcularTotal() {
 
     reservacionTratamientos.tratamiento.push(tratamientosG);
 
+    window.alert(JSON.stringify(reservacionTratamientos));
+}
 
+function calcularTotal() {
     var total = 0;
     //SE AGREGA EL TOTAL DE PRODUCTOS
     for (var i = 0; i < productoT.length; i++) {
@@ -517,5 +518,4 @@ function calcularTotal() {
         total += Number(tratamientosR[i].costo);
     }
     window.alert("Costo total: $" + total);
-    console.log(reservacionTratamientos);
 }
