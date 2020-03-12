@@ -29,8 +29,8 @@ public class ControladorServicio {
 
         servicio.setFecha(ctrl.generarFecha());
 
-        if (cmdServicio.agregarServicio(servicio)) {
-
+        if (!cmdServicio.agregarServicio(servicio)) {
+            servicio = null;
         }
         Gson gson = new Gson();
         return gson.toJson(servicio);

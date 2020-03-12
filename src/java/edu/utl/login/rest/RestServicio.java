@@ -37,12 +37,19 @@ public class RestServicio extends Application {
         ControladorServicio ctrlServicio = new ControladorServicio();
         String json = null;
         Gson gson = new Gson();
+        try {
 
-        Servicio servicio1 = gson.fromJson(servicio, Servicio.class);
+            Servicio servicio1 = gson.fromJson(servicio, Servicio.class);
 
-        json = ctrlServicio.agregarTratamiento(servicio1);
+            json = ctrlServicio.agregarTratamiento(servicio1);
+        } catch (Exception e) {
+            json = null;
+            json = gson.toJson(json);
+        } finally {
 
-        return Response.status(Response.Status.OK).entity(json).build();
+            return Response.status(Response.Status.OK).entity(json).build();
+        }
+
     }
 
     @Path("listado")

@@ -14,6 +14,8 @@ public class Reservacion {
     private int idCliente;
     private int idSala;
     private int idHorario;
+    private String nombreCliente;
+    private String nombreEmpleado;
 
     private String horaInicio;
     private String horaFin;
@@ -41,6 +43,22 @@ public class Reservacion {
         this.horaFin = horaFin;
         this.cliente = cliente;
         this.sucursal = sucursal;
+    }
+
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
+    }
+
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
     public int getIdReservacion() {
