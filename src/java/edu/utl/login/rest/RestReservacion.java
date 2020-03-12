@@ -5,7 +5,11 @@
  */
 package edu.utl.login.rest;
 
+import com.google.gson.Gson;
+import edu.utl.login.controlador.Controlador;
+import edu.utl.login.controlador.ControladorEmpleado;
 import edu.utl.login.controlador.ControladorReservacion;
+import edu.utl.login.modelo.Usuario;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -81,5 +85,20 @@ public class RestReservacion extends Application {
         json = ctrlR.consultarHorariosDisponibles(fecha, idSala);
 
         return Response.status(Response.Status.OK).entity(json).build();
+    }
+
+    @Path("listarReservaciones")
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response listarReservaciones(@FormParam("tokenAdmin")
+            @DefaultValue("0") String tokenAdmin) {
+        Controlador cmd = new Controlador();
+        ControladorEmpleado cmdE = new ControladorEmpleado();
+        Gson gson = new Gson();
+
+        Usuario u = new Usuario(0, tokenAdmin);
+        String e = cmdE.listarReservaciones(u);
+        System.out.println(e);
+        return Response.status(Response.Status.OK).entity(e).build();
     }
 }

@@ -224,18 +224,4 @@ public class RestEmpleado extends Application {
 
     }
 
-    @Path("listarReservaciones")
-    @Produces(MediaType.APPLICATION_JSON)
-    @POST
-    public Response listarReservaciones(@FormParam("tokenAdmin")
-            @DefaultValue("0") String tokenAdmin) {
-        Controlador cmd = new Controlador();
-        ControladorEmpleado cmdE = new ControladorEmpleado();
-        Gson gson = new Gson();
-
-        Usuario u = new Usuario(0, tokenAdmin);
-        String e = cmdE.listarReservaciones(u);
-        System.out.println(e);
-        return Response.status(Response.Status.OK).entity(e).build();
-    }
 }
