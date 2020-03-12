@@ -250,6 +250,48 @@ public class ComandoServicio {
                     }
                     servicio.setTratamientos(tratamientos);
                 }
+                query = "SELECT "
+                        + "p.nombre, "
+                        + "r.idReservacion "
+                        + "FROM "
+                        + "cliente c "
+                        + "INNER JOIN "
+                        + "persona p ON p.idPersona = c.idPersona "
+                        + "INNER JOIN "
+                        + "reservacion r ON r.idCliente = c.idCliente "
+                        + "INNER JOIN "
+                        + "servicio s ON s.idReservacion = r.idReservacion "
+                        + "WHERE "
+                        + "s.idServicio = ?";
+                ps = conn.getConexión().prepareStatement(query);
+
+                ps.setInt(1, servicio.getIdServicio());
+
+                rs5 = ps.executeQuery();
+
+                if (rs5.next()) {
+                    reservacion = new Reservacion();
+                    reservacion.setNombreCliente(rs5.getString("nombre"));
+                    reservacion.setIdReservacion(rs5.getInt("idReservacion"));
+
+                    query = "SELECT "
+                            + "p.nombre "
+                            + "FROM "
+                            + "empleado e "
+                            + "INNER JOIN "
+                            + "persona p ON p.idPersona = e.idPersona "
+                            + "INNER JOIN "
+                            + "servicio s ON s.idEmpleado = e.idEmpleado "
+                            + "WHERE "
+                            + "s.idServicio = ?";
+                    ps = conn.getConexión().prepareStatement(query);
+                    ps.setInt(1, servicio.getIdServicio());
+                    rs5 = ps.executeQuery();
+                    if (rs5.next()) {
+                        reservacion.setNombreEmpleado(rs5.getString("nombre"));
+                    }
+                    servicio.setReservacion(reservacion);
+                }
 
                 servicios.add(servicio);
             }
