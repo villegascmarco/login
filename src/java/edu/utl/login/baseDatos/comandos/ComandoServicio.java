@@ -8,6 +8,7 @@ package edu.utl.login.baseDatos.comandos;
 import com.google.gson.Gson;
 import edu.utl.login.baseDatos.conexionBasesDatos;
 import edu.utl.login.modelo.Empleado;
+import edu.utl.login.modelo.Persona;
 import edu.utl.login.modelo.Producto;
 import edu.utl.login.modelo.Reservacion;
 import edu.utl.login.modelo.Servicio;
@@ -89,6 +90,24 @@ public class ComandoServicio {
                 }
 
             }
+
+            query = "UPDATE reservacion "
+                    + "SET "
+                    + "estatus = 0 "
+                    + "WHERE "
+                    + "idReservacion = (SELECT "
+                    + "s.idReservacion "
+                    + "FROM "
+                    + "servicio s "
+                    + "WHERE "
+                    + "s.idServicio = ? )";
+
+            ps = conn.getConexión().prepareStatement(query);
+
+            ps.setInt(1, idServicio);
+
+            ps.execute();
+
             servicio.setIdServicio(idServicio);
 
             conn.commit();
@@ -105,35 +124,184 @@ public class ComandoServicio {
     }
 
     public String listado() {
-        String respuesta;
+
         Gson gson = new Gson();
-        Servicio servicio;
         LinkedList<Servicio> servicios = new LinkedList<>();
+        Tratamiento tratamiento;
+        Tratamiento tratamientos[] = null;
+        Producto producto;
+        Producto productos[] = null;
+        Servicio servicio;
+        Empleado empleado;
+        Persona persona;
+        Reservacion reservacion;
+
+        int renglones = 0;
+        int posicion = 0;
+
+        int reng = 0;
+        int pos = 0;
+
+        ResultSet rs1;
+        ResultSet rs2;
+        ResultSet rs3;
+        ResultSet rs4;
+        ResultSet rs5;
 
         try {
-
             conn.Conectar();
 
-            query = "SELECT * FROM v_listadoServicio";
+            query = "SELECT * FROM servicio";
 
             ps = conn.getConexión().prepareStatement(query);
 
-            rs = ps.executeQuery();
+            rs1 = ps.executeQuery();
 
-            while (rs.next()) {
-                servicio = new Servicio(rs.getInt(1), rs.getString(2), null, null, null);
+            while (rs1.next()) {
+                servicio = new Servicio(
+                        rs1.getInt("idServicio"),
+                        rs1.getString("fecha"),
+                        null, null, null);
+
+                query = "SELECT "
+                        + "* "
+                        + "FROM "
+                        + "servicio_tratamiento "
+                        + "WHERE "
+                        + "idServicio = ?";
+
+                ps = conn.getConexión().prepareStatement(query);
+
+                ps.setInt(1, servicio.getIdServicio());
+
+                rs2 = ps.executeQuery();
+
+                if (rs2.last()) {
+                    renglones = rs2.getRow();
+                    tratamientos = new Tratamiento[renglones];
+                    posicion = 0;
+                    rs2.beforeFirst();
+                }
+
+                while (rs2.next()) {
+
+                    query = "SELECT "
+                            + "* "
+                            + "FROM "
+                            + "tratamiento "
+                            + "WHERE "
+                            + "idTratamiento = ? ";
+
+                    ps = conn.getConexión().prepareStatement(query);
+
+                    ps.setInt(1, rs2.getInt("idTratamiento"));
+
+                    rs3 = ps.executeQuery();
+                    while (rs3.next()) {
+                        tratamiento = new Tratamiento(
+                                rs3.getInt("idTratamiento"),
+                                rs3.getString("nombre"),
+                                rs3.getString("descripcion"),
+                                rs3.getDouble("costo"),
+                                rs3.getInt("estatus"));
+                        //////
+                        query = "SELECT "
+                                + "stp.idServicioTratamiento,"
+                                + "p.idProducto,"
+                                + "p.nombre,"
+                                + "p.marca,"
+                                + "p.precioUso,"
+                                + "p.estatus "
+                                + "FROM "
+                                + "producto p "
+                                + "INNER JOIN "
+                                + "    servicio_tratamiento_producto stp ON stp.idProducto = p.idProducto "
+                                + "WHERE stp.idServicioTratamiento = ?";
+
+                        ps = conn.getConexión().prepareStatement(query);
+
+                        ps.setInt(1, rs2.getInt("idServicioTratamiento"));
+
+                        rs4 = ps.executeQuery();
+
+                        if (rs4.last()) {
+                            reng = rs4.getRow();
+                            productos = new Producto[reng];
+                            pos = 0;
+                            rs4.beforeFirst();
+                        }
+
+                        while (rs4.next()) {
+                            producto = new Producto();
+                            producto.setIdProducto(rs4.getInt("idProducto"));
+                            producto.setNombre(rs4.getString("nombre"));
+                            producto.setMarca(rs4.getString("marca"));
+                            producto.setPrecioUso(rs4.getDouble("precioUso"));
+                            producto.setStatus(rs4.getInt("estatus"));
+
+                            productos[pos] = producto;
+                            pos++;
+                        }
+
+                        ///////
+                        tratamiento.setProductos(productos);
+                        tratamientos[posicion] = tratamiento;
+                        posicion++;
+                    }
+                    servicio.setTratamientos(tratamientos);
+                }
+                query = "SELECT "
+                        + "p.nombre, "
+                        + "r.idReservacion "
+                        + "FROM "
+                        + "cliente c "
+                        + "INNER JOIN "
+                        + "persona p ON p.idPersona = c.idPersona "
+                        + "INNER JOIN "
+                        + "reservacion r ON r.idCliente = c.idCliente "
+                        + "INNER JOIN "
+                        + "servicio s ON s.idReservacion = r.idReservacion "
+                        + "WHERE "
+                        + "s.idServicio = ?";
+                ps = conn.getConexión().prepareStatement(query);
+
+                ps.setInt(1, servicio.getIdServicio());
+
+                rs5 = ps.executeQuery();
+
+                if (rs5.next()) {
+                    reservacion = new Reservacion();
+                    reservacion.setNombreCliente(rs5.getString("nombre"));
+                    reservacion.setIdReservacion(rs5.getInt("idReservacion"));
+
+                    query = "SELECT "
+                            + "p.nombre "
+                            + "FROM "
+                            + "empleado e "
+                            + "INNER JOIN "
+                            + "persona p ON p.idPersona = e.idPersona "
+                            + "INNER JOIN "
+                            + "servicio s ON s.idEmpleado = e.idEmpleado "
+                            + "WHERE "
+                            + "s.idServicio = ?";
+                    ps = conn.getConexión().prepareStatement(query);
+                    ps.setInt(1, servicio.getIdServicio());
+                    rs5 = ps.executeQuery();
+                    if (rs5.next()) {
+                        reservacion.setNombreEmpleado(rs5.getString("nombre"));
+                    }
+                    servicio.setReservacion(reservacion);
+                }
+
                 servicios.add(servicio);
             }
 
-            respuesta = gson.toJson(servicios);
-
         } catch (Exception e) {
-            respuesta = null;
+            servicios = null;
         } finally {
             conn.Desconectar();
+            return gson.toJson(servicios);
         }
-
-        return respuesta;
     }
 
 }
