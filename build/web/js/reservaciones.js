@@ -39,7 +39,7 @@ var listarReservaciones = () => {
     $.ajax({
         type: "POST",
         async: true,
-        url: 'api/empleado/listarReservaciones',
+        url: 'api/reservacion/listarReservaciones',
         data: {
             token: token
         }
@@ -198,7 +198,7 @@ var idTrat = 0;
 var tratamientosG = [];
 
 
-//Método para listar tratamientos que se guardaron
+//Método para agregar tratamientos
 function listarTratamientosR() {
 
     var p = ($('#cmbTratamientos').val());
@@ -206,6 +206,9 @@ function listarTratamientosR() {
     var t = (tratamientos[p]);
 
     tratamientosR[tratamientosR.length] = t;
+
+    tratamientosG[tratamientosG.length] = t;
+
 
     var datos = "";
     var datos = "<thead>";
@@ -219,19 +222,13 @@ function listarTratamientosR() {
 
     for (var i = 0; i < tratamientosR.length; i++) {
         idTrat = tratamientos[i].idTratamiento;
+        tratamientosG[i] = tratamientosR[i];
         datos += "<tr>";
         datos += "<td>" + tratamientosR[i].nombre + "</td>";
         datos += "<td> $" + tratamientosR[i].costo + "</td>";
         datos += "<td>  <button type='button' class='btn btn-outline-info' id='insertarProducto' onclick='listarProductos(" + i + ")'><i id='iconoPlus' class='fa fa-plus'></i></button> ";
         datos += "<td>  <button type='button' class='btn btn-outline-danger' id='eliminarTratamiento' onclick='eliminarTratamiento(" + i + ")'><i id='iconoMinus' class='fa fa-minus'></i></button> ";
         datos += "</tr>";
-        tratamientosG[i] = tratamientosR[i];
-
-        if (tratamientosG[i].productos === undefined) {
-
-        } else {
-            tratamientosG[i].productos = [];
-        }
     }
     datos += "</tbody>";
     $('#tableT').html(datos);
@@ -249,7 +246,8 @@ var productos = null;
 //Arreglo con los productos que se van a agregar VA DENTRO DEL ARREGLO DE TRATAMIENTOS A AGREGAR
 var productoT = [];
 
-
+//pos: variable que guarda la posición en la tabla en la que se encuentra
+//el tratamiento al cual se le agregan los productos
 function listarProductos(pos) {
 
     var token = json.usuario.token;
@@ -279,8 +277,8 @@ function listarProductos(pos) {
     }
     );
 
-    var i = pos;
-    posTrat = i;
+//    var i = pos;
+    posTrat = pos;
 }
 
 
@@ -292,8 +290,8 @@ function agregarProductos() {
     var p = ($('#cmbProductos').val());
 
 //Objeto tipo producto, entra al arreglo donde se almacenan los productos y busca el producto en la posicion P
-    var t = new Object;
-    t = (productos[p]);
+
+    var t = (productos[p]);
 
     if (t.pos === undefined) {
         t.pos = "";
@@ -304,13 +302,12 @@ function agregarProductos() {
     if (t.posT === undefined) {
         t.posT = "";
     }
-//Asigna dentro del arreglo de productos que se listan en la tabla el objeto seleccionado en el comoBox
-    productoT[productoT.length] = t;
 
-//Si el campo productos es = undefined, inicializa el arreglo en 0's
     if (tratamientosG[posTrat].productos === undefined) {
         tratamientosG[posTrat].productos = [];
     }
+//Si el campo productos es = undefined, inicializa el arreglo en 0's
+
 
 //Asigna dentro del arreglo de tratamientosGuardar el producto (t)
     tratamientosG[posTrat].productos.push(t);
@@ -326,6 +323,9 @@ function agregarProductos() {
 
     for (var i = 0; i < tratamientosG.length; i++) {
         for (var j = 0; j < tratamientosG[i].productos.length; j++) {
+            if (tratamientosG[i].productos === undefined) {
+                tratamientosG[i].productos = [];
+            }
             tratamientosG[i].productos[j].posT = j;
             datos += "<tr>";
             datos += "<td>" + tratamientosG[i].productos[j].nombre + "</td>";
@@ -337,7 +337,6 @@ function agregarProductos() {
     datos += "</tbody>";
 
     $('#tableP').html(datos);
-//Recorre todo el arreglo de productos listados en la tabla productosTabla
 
 }
 
@@ -378,9 +377,11 @@ function eliminarTratamiento(p) {
     if (tratamientosG[p].productos === undefined) {
 //        window.alert('Error');
     }
+    tratamientosG[p].productos = [];
 
     for (var i = 0; i < tratamientosG[p].productos; i++) {
         tratamientosG[p].productos.splice(i, 1);
+
     }
 
     window.alert('Eliminado!');
@@ -540,3 +541,4 @@ function calcularTotal() {
     }
     window.alert("Costo total: $" + total);
 }
+
