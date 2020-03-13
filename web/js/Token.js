@@ -54,11 +54,11 @@ function usarToken() {
                 window.location = "Bienvenido.jsp";
                 return;
 
+            } else if (json.includes("Empleado")) {
+
+                window.location = "BienvenidoEmpleado.jsp";
+                return;
             }
-
-            window.location = "BienvenidoEmpleado.jsp";
-            return;
-
         }
         alert("No generado");
 

@@ -12,6 +12,7 @@ if (json !== "" && json !== null) {
     window.location = "index.jsp";
 }
 if (tipo === null || tipo === "") {
+    window.location = "index.jsp";
 } else if (tipo.includes("Cliente")) {
     window.location = "Bienvenido.jsp";
 }
@@ -20,30 +21,28 @@ var u = json.usuario;
 
 Object.keys(json).forEach(key => {
 
-    if (key == 'usuario' && key !== null) {
+    if (key === 'usuario' && key !== null) {
         Object.keys(u).forEach(key => {
             document.getElementById(key).value = u[key];
-        })
+        });
 
-    } else if (key == 'persona' && key !== null) {
+    } else if (key === 'persona' && key !== null) {
         Object.keys(p).forEach(key => {
 
             document.getElementById(key).value = p[key];
-        })
+        });
 //                    document.getElementById(key).value = json[key];
-
     } else {
-        if (key == "rutaFoto") {
+        if (key === "rutaFoto") {
             document.getElementById(key).value = json[key];
             document.getElementById("imagen").src = json[key];
         }
         document.getElementById(key).value = json[key];
-
     }
-})
+});
 
 var cancelar = () => {
-    document.getElementById("formulario1").reset()
+    document.getElementById("formulario1").reset();
 }
 
 
